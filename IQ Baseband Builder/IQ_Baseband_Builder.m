@@ -4,15 +4,16 @@ function varargout = IQ_Baseband_Builder(varargin)
 %      singleton*.
 
 % Last Modified by GUIDE v2.5 25-Sep-2012 15:18:51
+% Last modified by cbo 2024-05-04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @IQ_Baseband_Builder_OpeningFcn, ...
-                   'gui_OutputFcn',  @IQ_Baseband_Builder_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @IQ_Baseband_Builder_OpeningFcn, ...
+    'gui_OutputFcn',  @IQ_Baseband_Builder_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -75,7 +76,7 @@ set(handles.qOffsetAmpValueText,'string', get(handles.qOffsetAmpSlider,'value'))
 set(handles.symOrderToggle,'value',0)%set mod type to binary for default
 
 % --- Outputs from this function are returned to the command line.
-function varargout = IQ_Baseband_Builder_OutputFcn(hObject, eventdata, handles) 
+function varargout = IQ_Baseband_Builder_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -90,7 +91,7 @@ function buildButton_Callback(hObject, eventdata, handles)
 global dData; %global variable for storing digital data
 M = getSymCount(get(handles.modTypeList,'Value')); %number of symbols
 k = log2(M);    %number of bits per symbol
- 
+
 % Create a binary data stream as a column vector.
 if isempty(dData)==1 || get(handles.dDataCheckBox,'Value')==0 %if binary data has not been generated then make it
     n = setBitCount(k,str2double(get(handles.bitCountBox,'String'))); %set number of bits based on user entry and # of symbols
@@ -136,7 +137,7 @@ end
 % Create eye diagram for part of filtered signal.
 if length(yN) < 100e3 %if less than 50e3 points plot all
     customEyeDiag(handles.eyePlot, yN, get(handles.eyePlotToggle,'Value'),nsamp*2,2)   %custom function for doing eye diagram
-else 
+else
     customEyeDiag(handles.eyePlot, yN(1:100e3),get(handles.eyePlotToggle,'Value'), nsamp*2,2)   %custom function for doing eye diagram
 end
 
@@ -223,11 +224,11 @@ end
 
 %sets slider for setting raised cosine or gaussian filter
 function filterTypeList_Callback(hObject, eventdata, handles)
- if get(hObject,'Value') == 3
-     set(handles.betaAdjustText,'String','3–dB Bandwidth-Symbol Time Product');
- else
-     set(handles.betaAdjustText,'String','Beta Roll Off');
- end
+if get(hObject,'Value') == 3
+    set(handles.betaAdjustText,'String','3–dB Bandwidth-Symbol Time Product');
+else
+    set(handles.betaAdjustText,'String','Beta Roll Off');
+end
 %********************************** end of function *******************
 
 
@@ -441,57 +442,57 @@ else
     map = 'Gray';
 end
 
-    if item == 1 
-        mType = modem.qammod('M',4,'SymbolOrder',map); %4 QAM
-    elseif item == 2 
-        mType = modem.qammod('M',8,'SymbolOrder',map); %8 QAM
-    elseif item == 3 
-       mType = modem.qammod('M',16,'SymbolOrder',map); %16 QAM 
-    elseif item == 4 
-        mType = modem.qammod('M',32,'SymbolOrder',map); %32 QAM 
-    elseif item == 5 
-        mType = modem.qammod('M',64,'SymbolOrder',map); %64 QAM 
-    elseif item == 6 
-        mType = modem.qammod('M',128,'SymbolOrder',map); %128 QAM 
-    else 
-        mType = modem.qammod('M',256,'SymbolOrder',map); %256 QAM 
-    end
-    %********************************** end of function *****************
+if item == 1
+    mType = modem.qammod('M',4,'SymbolOrder',map); %4 QAM
+elseif item == 2
+    mType = modem.qammod('M',8,'SymbolOrder',map); %8 QAM
+elseif item == 3
+    mType = modem.qammod('M',16,'SymbolOrder',map); %16 QAM
+elseif item == 4
+    mType = modem.qammod('M',32,'SymbolOrder',map); %32 QAM
+elseif item == 5
+    mType = modem.qammod('M',64,'SymbolOrder',map); %64 QAM
+elseif item == 6
+    mType = modem.qammod('M',128,'SymbolOrder',map); %128 QAM
+else
+    mType = modem.qammod('M',256,'SymbolOrder',map); %256 QAM
+end
+%********************************** end of function *****************
 
 %Used to determine current symbol count
 function sCount = getSymCount(item)%modem.qammod(M)
 
-    if item == 1 
-        sCount = 4; %4 QAM
-    elseif item == 2 
-        sCount = 8; %8 QAM
-    elseif item == 3 
-       sCount = 16; %16 QAM 
-    elseif item == 4 
-        sCount = 32; %32 QAM 
-    elseif item == 5 
-        sCount = 64; %64 QAM 
-    elseif item == 6 
-        sCount = 128; %128 QAM 
-    else 
-        sCount = 256; %256 QAM 
-    end
-    %************************* end of function *************************
+if item == 1
+    sCount = 4; %4 QAM
+elseif item == 2
+    sCount = 8; %8 QAM
+elseif item == 3
+    sCount = 16; %16 QAM
+elseif item == 4
+    sCount = 32; %32 QAM
+elseif item == 5
+    sCount = 64; %64 QAM
+elseif item == 6
+    sCount = 128; %128 QAM
+else
+    sCount = 256; %256 QAM
+end
+%************************* end of function *************************
 
 function fY = getFilter(y,handles,item)%returns a filtered IQ data
 
-    if item == 1 %raised cosine filter
-        fY = raisedCosineFilter(y, str2double(get(handles.samplesSymBox,'string')), get(handles.orderAdjustSlider,'value'), get(handles.filterBetaAdjust,'value'),get(handles.pulseResponseBox,'value'));
-    elseif item == 2 %root raised cosine filter
-        fY = rootRaisedCosineFilter(y, str2double(get(handles.samplesSymBox,'string')), get(handles.orderAdjustSlider,'value'), get(handles.filterBetaAdjust,'value'),get(handles.pulseResponseBox,'value'));
-    elseif item == 3 
-       fY = gaussianFilter(y,str2double(get(handles.samplesSymBox,'string')), get(handles.orderAdjustSlider,'value'), get(handles.filterBetaAdjust,'value'),get(handles.pulseResponseBox,'value'));
-    else
-        fY = rectFilter(y,str2double(get(handles.samplesSymBox,'string')));
-    end
-    %************************************** end of function ***********
-    
-   %function sets bit count bits must equal mod(bits,k) = 0 
+if item == 1 %raised cosine filter
+    fY = raisedCosineFilter(y, str2double(get(handles.samplesSymBox,'string')), get(handles.orderAdjustSlider,'value'), get(handles.filterBetaAdjust,'value'),get(handles.pulseResponseBox,'value'));
+elseif item == 2 %root raised cosine filter
+    fY = rootRaisedCosineFilter(y, str2double(get(handles.samplesSymBox,'string')), get(handles.orderAdjustSlider,'value'), get(handles.filterBetaAdjust,'value'),get(handles.pulseResponseBox,'value'));
+elseif item == 3
+    fY = gaussianFilter(y,str2double(get(handles.samplesSymBox,'string')), get(handles.orderAdjustSlider,'value'), get(handles.filterBetaAdjust,'value'),get(handles.pulseResponseBox,'value'));
+else
+    fY = rectFilter(y,str2double(get(handles.samplesSymBox,'string')));
+end
+%************************************** end of function ***********
+
+%function sets bit count bits must equal mod(bits,k) = 0
 function bits = setBitCount(k,bCount)
 
 r = mod(bCount,k); %see if k into bcount has no remainder
@@ -499,7 +500,7 @@ if r == 0 %ok user enter amount is ok
     bits = bCount;
 else %adjust bit count
     bits = bCount - r;
-end   
+end
 %************************** end of function *****************
 
 
@@ -555,7 +556,7 @@ if ~isempty(Z)
         try %exception if CSV write fails
             csvwrite(csvName,Z,0,0);
         catch exception
-             uiwait(msgbox(exception.message,'Error Message','error'));
+            uiwait(msgbox(exception.message,'Error Message','error'));
             rethrow(exception);
         end
     end
